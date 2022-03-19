@@ -12,7 +12,7 @@ plugins {
 
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
-    `jacoco`
+    jacoco
 }
 
 repositories {
@@ -38,4 +38,17 @@ dependencies {
 
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api("org.apache.commons:commons-math3:3.6.1")
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.required.set(false)
+    }
 }
