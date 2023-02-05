@@ -34,7 +34,7 @@ val tolerance = 0.01
 
 // Run a PID loop
 // The final value is the value that the loop ends at once it is within `tolerance` of the target position. It is not necessarily the same value as the target position.
-val finalValue = runPID(initial, target, tolerance, k) { initial, current, target, error
+val finalValue = runPID(initial, target, tolerance, k) { initial, current, target, error ->
     // `initial` and `target` are the initial and target values, as passed in to `runPID`
     // `current` is the current value, as returned by the previous iteration of the loop
     // `error` is the difference between `target` and `current`
