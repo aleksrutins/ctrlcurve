@@ -9,3 +9,4 @@
 
 rootProject.name = "ctrlcurve"
 include("lib")
+project(":lib").name = "ctrlcurve"
