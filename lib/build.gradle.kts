@@ -13,7 +13,7 @@ plugins {
     `maven-publish`
 }
 
-version = "0.1.4"
+version = "0.1.5"
 group = "com.farthergate"
 
 publishing {
