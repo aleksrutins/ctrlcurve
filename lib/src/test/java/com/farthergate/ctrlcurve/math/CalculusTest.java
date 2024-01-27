@@ -1,4 +1,4 @@
-package com.rutins.aleks.ctrlcurve.math;
+package com.farthergate.ctrlcurve.math;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

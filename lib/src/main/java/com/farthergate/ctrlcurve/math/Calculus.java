@@ -1,4 +1,4 @@
-package com.rutins.aleks.ctrlcurve.math;
+package com.farthergate.ctrlcurve.math;
 
 import java.util.function.Function;
 

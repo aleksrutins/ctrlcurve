@@ -1,5 +1,5 @@
-package com.rutins.aleks.ctrlcurve;
-import com.rutins.aleks.ctrlcurve.math.Calculus;
+package com.farthergate.ctrlcurve;
+import com.farthergate.ctrlcurve.math.Calculus;
 
 class PIDScope {
     boolean stopRequested = false;

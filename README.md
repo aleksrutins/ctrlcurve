@@ -14,11 +14,11 @@ dependencies {
     implementation 'com.github.aleksrutins:ctrlcurve:0.1.0'
 }
 ```
-Please note, though, that the package is `com.rutins.aleks.ctrlcurve`, not `com.github.aleksrutins.ctrlcurve`.
+Please note, though, that the package is `com.farthergate.ctrlcurve`, not `com.github.aleksrutins.ctrlcurve`.
 
 ## Usage
 ```kotlin
-import com.rutins.aleks.ctrlcurve.runPID
+import com.farthergate.ctrlcurve.runPID
 
 // ...
 

@@ -1,5 +1,5 @@
-package com.rutins.aleks.ctrlcurve;
-import com.rutins.aleks.ctrlcurve.math.Tolerance;
+package com.farthergate.ctrlcurve;
+import com.farthergate.ctrlcurve.math.Tolerance;
 
 public interface PID {
     public static double runPID(double initial, double target, double tolerance, double kp, double ki, double kd, PIDCorrection correction) {

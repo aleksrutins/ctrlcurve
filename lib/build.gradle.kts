@@ -13,6 +13,11 @@ plugins {
     `maven-publish`
 }
 
+version = "0.1.1"
+
+project.ext.set("archivesBaseName", "ctrlcurve")
+group = "com.farthergate"
+
 publishing {
     repositories {
         maven {

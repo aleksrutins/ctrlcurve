@@ -1,4 +1,4 @@
-package com.rutins.aleks.ctrlcurve.math;
+package com.farthergate.ctrlcurve.math;
 
 public interface Tolerance {
     public static boolean isWithinTolerance(double a, double b, double tolerance) {
