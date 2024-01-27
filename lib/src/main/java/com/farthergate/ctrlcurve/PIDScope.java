@@ -1,7 +1,7 @@
 package com.farthergate.ctrlcurve;
 import com.farthergate.ctrlcurve.math.Calculus;
 
-class PIDScope {
+public class PIDScope {
     boolean stopRequested = false;
     double kp, ki, kd;
     double error;
