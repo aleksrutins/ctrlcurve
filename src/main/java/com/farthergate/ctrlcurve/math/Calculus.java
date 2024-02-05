@@ -16,4 +16,10 @@ public interface Calculus {
     public static double integrate(double start, double end, Function<Double, Double> fn) {
         return integrate(start, end, 0.001, fn);
     }
+
+    static double DIFF_CONSTANT = 0.001;
+
+    public static double differentiate(Function<Double, Double> fn, double x) {
+        return (fn.apply(x + DIFF_CONSTANT) - fn.apply(x - DIFF_CONSTANT)) / 2*DIFF_CONSTANT;
+    }
 }
