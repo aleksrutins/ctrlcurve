@@ -12,17 +12,19 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class PIDTest {
     @Test void canRunPID() {
-        double kp = 100.0;
+        double kp = 0.75;
+        double ti = 50.0;
+        double td = 50.0;
         double tolerance = 1.0;
         double initial = 0.0;
         double target = 500.0;
 
-        System.out.println("\"current\",\"correction\",\"result\"");
+        System.out.println("\"current\",\"error\",\"correction\",\"result\"");
 
-        double finalResult = PID.runPID(initial, target, tolerance, kp, kp, kp, (pid, _initial, current, _target, error) -> {
+        double finalResult = PID.runPID(initial, target, tolerance, kp, ti, td, (pid, _initial, current, _target, error) -> {
             double correction = pid.calculateCorrection();
             double result = current + correction;
-            System.out.println(String.format("\"%f\",\"%f\",\"%f\"", current, correction, target));
+            System.out.println(String.format("\"%f\",\"%f\",\"%f\",\"%f\"", current, error, correction, result));
             if(pid.t > 50) fail("PID exceeded 50 iterations");
             return result;
         });

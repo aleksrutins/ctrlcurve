@@ -6,7 +6,7 @@ import com.farthergate.ctrlcurve.math.Calculus;
 
 public class PIDScope {
     boolean stopRequested = false;
-    double kp, ki, kd;
+    double kp, ti, td;
     double error;
     double tolerance;
     double initial;
@@ -15,10 +15,10 @@ public class PIDScope {
     int t = 0;
     private List<Double> history = new ArrayList<>();
 
-    public PIDScope(double kp, double ki, double kd, double error, double tolerance, double initial, double target, double current) {
+    public PIDScope(double kp, double ti, double td, double error, double tolerance, double initial, double target, double current) {
         this.kp = kp;
-        this.ki = ki;
-        this.kd = kd;
+        this.ti = ti;
+        this.td = td;
         this.error = error;
         this.tolerance = tolerance;
         this.initial = initial;
@@ -55,11 +55,15 @@ public class PIDScope {
     }
 
     public double calculateCorrection() {
-        if (!(kp == 0.0 && ki == 0.0 && kd == 0.0) && (target-initial) != 0.0) {
-            return (
-                (kp * (error / (target - initial))) // proportional
-            //  + (ki * history.stream().reduce(0.0, Double::sum)) // integral
-            //   + (kd * Calculus.differentiate(this::error, t)) // derivative
+        var proportional = (error / (target - initial));
+        var integral = (history.stream().reduce(0.0, Double::sum) / ti);
+        var derivative = (td * Calculus.differentiate(this::error, t));
+        System.out.println(String.format("%f,%f,%f", proportional, integral, derivative));
+        if (kp != 0.0 && (target-initial) != 0.0) {
+            return kp * (
+                proportional
+              + integral
+              + derivative
             );
         }
         return target;
