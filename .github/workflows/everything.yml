@@ -28,9 +28,11 @@ jobs:
     - name: Test
       run: mvn test
       
+    - name: Write settings
+      run: mkdir -p ~/.m2 && cp settings.xml ~/.m2/
 
     - name: Publish to Maven Central
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy
       env:
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
