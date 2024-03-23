@@ -17,31 +17,34 @@ dependencies {
 Please note, though, that the package is `com.farthergate.ctrlcurve`, not `com.github.aleksrutins.ctrlcurve`.
 
 ## Usage
-```kotlin
-import com.farthergate.ctrlcurve.runPID
+```java
+import com.farthergate.ctrlcurve.PID;
 
 // ...
 
 // Initialize constants
 // The starting value
-val initial = 0.0
+double initial = 0.0;
 // The target value
-val target = 3600.0
+double target = 10;
 // The PID coefficient
-val k = 100.0
+double kp = 100.0;
+// Time of integration
+double ti = 50;
+// Time of differentiation
+double td = 50;
+// Milliseconds to wait between iterations
+double dt = 10;
 // The tolerance for floating-point comparisons
-val tolerance = 0.01
+double tolerance = 0.01;
+// This is the current value; in a real-life situation, this would be written to actuators and read back from sensors.
+double current = initial;
 
 // Run a PID loop
-// The final value is the value that the loop ends at once it is within `tolerance` of the target position. It is not necessarily the same value as the target position.
-val finalValue = runPID(initial, target, tolerance, k) { initial, current, target, error ->
-    // `initial` and `target` are the initial and target values, as passed in to `runPID`
-    // `current` is the current value, as returned by the previous iteration of the loop
-    // `error` is the difference between `target` and `current`
+// The loop ends once it is within `tolerance` of the target position. The value at that point is not necessarily the exact same value as the target position.
+for(var pid = new PID(kp, ti, td, dt, tolerance, initial, target); pid.shouldContinue(); pid.update(current)) {
 
-    // `calculateCorrection()` does the actual PID math, and returns a correction value to smoothly transition between `target` and `current`.
-    val correction = calculateCorrection()
-
-    // Return the new value
-    current + correction
+    // `correction()` does the actual PID math, and returns a correction value to smoothly transition between `target` and `current`.
+    current += pid.correction();
 }
+```

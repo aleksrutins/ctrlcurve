@@ -5,8 +5,6 @@ package com.farthergate.ctrlcurve;
 
 import org.junit.jupiter.api.Test;
 
-import com.farthergate.ctrlcurve.math.Tolerance;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -22,10 +20,10 @@ class PIDTest {
 
         double current = initial;
 
-        double previousError = 0;
+        double previousError = target - current;
         double integral = 0;
         for(double t = 0; t < 5; t += dt/1000) {
-            double error = target - current;
+            var error = target - current;
             var proportional = error;
             integral = integral + error*dt;
             var derivative = (error - previousError) / dt;
@@ -33,26 +31,29 @@ class PIDTest {
             previousError = error;
             Thread.sleep((long)dt);
         }
-        if(!Tolerance.isWithinTolerance(target, current, tolerance)) fail("Could not calculate PID after 5 seconds");
+        if((target - current) > tolerance) fail("Could not calculate PID after 5 seconds");
     }
     @Test void canRunPID() throws InterruptedException {
         double kp = 0.75;
         double ti = 50.0;
         double td = 50.0;
-        double tolerance = 1.0;
+        double tolerance = 0.2;
         double initial = 0.0;
         double target = 50.0;
 
-        System.out.println("\"current\",\"error\",\"correction\",\"result\"");
+        System.out.println("\"current\",\"error\",\"proportional\",\"integral\",\"derivative\",\"correction\",\"result\"");
 
         double current = initial;
-        var pid = new PID(kp, ti, td, 10, tolerance, initial, target);
 
-        for(; pid.shouldContinue(); pid.sync()) {
-            current += pid.correction();
+        for(var pid = new PID(kp, ti, td, 10, tolerance, initial, target); pid.shouldContinue(); pid.update(current)) {
+            var correction = pid.correction();
+            
+            System.out.println(String.format("%f,%f,%f,%f,%f,%f,%f", current, target - current, pid.proportional(), pid.integral(), pid.derivative(), correction, current + correction));
+
+            current += correction;
             if(pid.t > 5000) fail("PID took more than 5 seconds");
         }
 
-        assertEquals(true, Tolerance.isWithinTolerance(current, target, tolerance));
+        assertEquals(true, (target - current) <= tolerance);
     }
 }
