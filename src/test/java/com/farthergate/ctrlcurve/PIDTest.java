@@ -11,24 +11,48 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class PIDTest {
-    @Test void canRunPID() {
+    @Test void basicPID() throws InterruptedException {
+        double kp = 0.75;
+        double ti = 5000.0;
+        double td = 5000.0;
+        double tolerance = 1.0;
+        double initial = 0.0;
+        double target = 10.0;
+        double dt = 10.0; // ms
+
+        double current = initial;
+
+        double previousError = 0;
+        double integral = 0;
+        for(double t = 0; t < 5; t += dt/1000) {
+            double error = target - current;
+            var proportional = error;
+            integral = integral + error*dt;
+            var derivative = (error - previousError) / dt;
+            current += kp * (proportional + integral/ti + td*derivative/1000);
+            previousError = error;
+            Thread.sleep((long)dt);
+        }
+        if(!Tolerance.isWithinTolerance(target, current, tolerance)) fail("Could not calculate PID after 5 seconds");
+    }
+    @Test void canRunPID() throws InterruptedException {
         double kp = 0.75;
         double ti = 50.0;
         double td = 50.0;
         double tolerance = 1.0;
         double initial = 0.0;
-        double target = 500.0;
+        double target = 50.0;
 
         System.out.println("\"current\",\"error\",\"correction\",\"result\"");
 
-        double finalResult = PID.runPID(initial, target, tolerance, kp, ti, td, (pid, _initial, current, _target, error) -> {
-            double correction = pid.calculateCorrection();
-            double result = current + correction;
-            System.out.println(String.format("\"%f\",\"%f\",\"%f\",\"%f\"", current, error, correction, result));
-            if(pid.t > 50) fail("PID exceeded 50 iterations");
-            return result;
-        });
+        double current = initial;
+        var pid = new PID(kp, ti, td, 10, tolerance, initial, target);
 
-        assertEquals(true, Tolerance.isWithinTolerance(finalResult, target, tolerance));
+        for(; pid.shouldContinue(); pid.sync()) {
+            current += pid.correction();
+            if(pid.t > 5000) fail("PID took more than 5 seconds");
+        }
+
+        assertEquals(true, Tolerance.isWithinTolerance(current, target, tolerance));
     }
 }

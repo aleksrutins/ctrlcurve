@@ -56,7 +56,7 @@ public class PIDScope {
 
     public double calculateCorrection() {
         var proportional = (error / (target - initial));
-        var integral = (history.stream().reduce(0.0, Double::sum) / ti);
+        var integral = (ti / Calculus.integrate(0.0, t, this::smoothedHistory) );
         var derivative = (td * Calculus.differentiate(this::error, t));
         System.out.println(String.format("%f,%f,%f", proportional, integral, derivative));
         if (kp != 0.0 && (target-initial) != 0.0) {
