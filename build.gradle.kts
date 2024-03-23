@@ -33,7 +33,7 @@ tasks.named<Test>("test") {
 }
 
 group = "com.farthergate"
-version = "0.2.0"
+version = "0.2.1"
 description = "com.farthergate:ctrlcurve"
 
 java {
