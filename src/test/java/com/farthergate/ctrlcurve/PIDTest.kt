@@ -56,6 +56,7 @@ internal class PIDTest {
 
             println(String.format("%f,%f,%f,%f,%f,%f,%f", current, target - current, pid.proportional(), pid.integral(), pid.derivative(), correction, current + correction))
 
+            pid.sync()
             current += correction
             if (pid.t > 5000) Assertions.fail<Any>("PID took more than 5 seconds")
             pid.update(current)

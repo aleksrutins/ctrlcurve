@@ -46,5 +46,8 @@ for(var pid = new PID(kp, ti, td, dt, tolerance, initial, target); pid.shouldCon
 
     // `correction()` does the actual PID math, and returns a correction value to smoothly transition between `target` and `current`.
     current += pid.correction();
+
+    // `sync()` waits for `dt` milliseconds, to allow time for sensors to update.
+    pid.sync();
 }
 ```

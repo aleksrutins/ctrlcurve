@@ -81,14 +81,20 @@ class PID(var kp: Double, var ti: Double, var td: Double, var dt: Double, var to
     }
 
     /**
-     * Wait [dt] milliseconds, and update the current, error, and integral values. This **MUST** be called at the end of each iteration,
+     * Wait [dt] milliseconds.
+     */
+    fun sync() {
+        Thread.sleep(dt.toLong())
+    }
+
+    /**
+     * Update the current, error, and integral values. This **MUST** be called at the end of each iteration, **after** [sync],
      * or the PID loop will not work.
      * @param current the new current value, generally read from a sensor after the correction is applied.
      * @throws InterruptedException if [java.lang.Thread.sleep] fails.
      */
     @Throws(InterruptedException::class)
     fun update(current: Double) {
-        Thread.sleep(dt.toLong())
         t += dt
         this.current = current
         previousError = error
