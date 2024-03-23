@@ -7,7 +7,30 @@
   <artifactId>ctrlcurve</artifactId>
   <version>0.2.0</version>
 
-  <name>ctrlcurve</name>
+  <name>com.farthergate:ctrlcurve</name>
+  <description>A PID control library.</description>
+  <url>https://ctrlcurve.farthergate.com</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+   <developers>
+    <developer>
+      <name>Aleks Rūtiņš</name>
+      <email>aleks@rutins.com</email>
+      <url>https://farthergate.com</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/aleksrutins/ctrlcurve.git</connection>
+    <developerConnection>scm:git:ssh://github.com:aleksrutins/ctrlcurve.git</developerConnection>
+    <url>http://github.com/aleksrutins/ctrlcurve/tree/master</url>
+  </scm>
 
   <dependencies>
     <dependency>
