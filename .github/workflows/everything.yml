@@ -29,10 +29,11 @@ jobs:
       run: mvn test
       
 
-    # - name: Publish to GitHub Packages Apache Maven
-    #   run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-    #   env:
-    #     SONATYPE_USERNAME: ${{ github.token }}
+    - name: Publish to Maven Central
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
 
   pages-build:
     runs-on: ubuntu-latest
